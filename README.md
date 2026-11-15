@@ -34,9 +34,9 @@ checks the gradient, constraints, holding condition and a saved reference result
 | `review --network rt_mt --interval adaptive` | Recompute first-hold selection and action adjustment |
 
 Prefix commands with `python run.py`. `--help` lists options. Optimization uses
-2,000 updates per start (400 at each review) and tolerance `1e-3`. Both final
-solutions are retained in `solutions.csv`. Original and `refined_*` schedules
-are distinct; the paper's node comparisons use the original schedules.
+2,000 updates per start (400 at each review) and tolerance `1e-3`. For each solve,
+`solutions.csv` summarizes both starts' final costs, stopping values and selection.
+Original and `refined_*` schedules are distinct; the paper's node comparisons use the original schedules.
 
 For complete node contacts:
 
@@ -63,21 +63,24 @@ with a per-user cap of five. Behavioral rates in `parameters.json` are fixed whe
 moving from groups to nodes or varying the emotional exit rate. Higgs provides
 contacts; activity states and intervention effects are model scenarios.
 
-## Files
+## Paper-to-code map
 
-| File | Role |
-|---|---|
-| `run.py` | Command entry point |
-| `experiments.py` | Allocation, review, timing and withdrawal comparisons |
-| `networks.py` | Contact preparation and synthetic network |
-| `ear/model.py` | Coupled activities, controls and objective |
-| `ear/integrate.py` | SSPRK3 integration and discrete adjoint |
-| `ear/optimize.py` | Whole-interval projected allocation (Algorithm 2) |
-| `ear/hold.py` | Emotional bound and first-hold selection (Theorem 2, Algorithm 3) |
-| `ear/aggregation.py`, `ear/bounds.py` | Shared-action grouping and transfer bounds |
-| `parameters.json` | Reference values and prescribed sensitivity ranges |
-| `data/inputs.npz`, `data/schedules.npz` | Three group models and 28 final schedules |
-| `data/results.csv` | Final paper results with model, policy, metric, unit and time window |
+| File / function | Paper location | Role |
+|---|---|---|
+| `run.py` | Section V | Single command entry point |
+| `ear/model.py` | Equations (2), (3), (6) | Coupled activities, controls and objective |
+| `ear/aggregation.py` | Section II-D, Algorithm 1 | Contact-profile groups and shared actions |
+| `ear/optimize.py` | Theorem 3, Algorithm 2 | Whole-interval projected allocation |
+| `ear/integrate.py` | Algorithm 2, Appendix D | SSPRK3 integration and discrete adjoint |
+| `ear/hold.py` | Theorem 2, Algorithm 3, Appendix E | Emotional upper bound and longest eligible first hold |
+| `ear/bounds.py` | Lemma F.1 | Group-to-node state and cumulative-activity bounds |
+| `networks.py` | Section V-A, Appendix G-A | Complete contacts and synthetic network |
+| `experiments.py`: `solve`, `reproduce`, `timing` | Sections V-B–V-C | Allocation and matched-input comparisons |
+| `experiments.py`: `withdrawal` | Section V-D | Emotional amplification and group predictions after release |
+| `experiments.py`: `review`, `solve` | Sections V-E–V-F | Review decisions and parameter sensitivity |
+| `parameters.json` | Table G.I | Reference values and prescribed ranges |
+| `data/inputs.npz`, `data/schedules.npz` | Section V, Appendix G | Three group models and 28 final schedules |
+| `data/results.csv` | Section V, Appendix G | Final metrics with model, policy, unit and time window |
 
 The reported full-network experiments used an Apple M4 Pro with 24 GiB memory
 and one requested computational thread. Full optimization takes longer than
