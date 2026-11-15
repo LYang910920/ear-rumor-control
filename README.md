@@ -25,16 +25,16 @@ and metrics under `outputs/`. `python test_core.py` runs the core tests.
 |---|---|
 | `reproduce --network rt_mt` | Original group schedules, intervention and withdrawal |
 | `reproduce --network follower_mt` | Original follower-based group schedules |
-| `reproduce --network rt_mt --policies refined_joint refined_constant refined_peer_free` | Common-tolerance group schedules |
+| `reproduce --network rt_mt --policies refined_joint refined_constant refined_peer_free` | Group policies optimized to the same stopping tolerance |
 | `reproduce --network rt_mt --policies review_fixed_1h review_fixed_2h review_fixed_4h review_adaptive` | Saved review policies |
-| `solve --network rt_mt` | Recompute joint, constant and peer-free allocation from two starts |
+| `solve --network rt_mt` | Optimize joint and constant actions, and actions planned without emotion spread |
 | `solve --network rt_mt --scenario budget_low` | Recompute a prescribed sensitivity setting |
-| `solve --network rt_mt --refined` | Recompute the common-tolerance group comparison |
+| `solve --network rt_mt --refined` | Optimize the group policies to the same stopping tolerance |
 | `review --network rt_mt --interval adaptive` | Recompute first-hold selection and action adjustment |
 
-Prefix commands with `python run.py`; `--help` lists options. The paper uses
-original schedules for node comparisons and `refined_*` schedules for the
-common-tolerance group comparison.
+Prefix commands with `python run.py`; `--help` lists options. The paper
+evaluates the original schedules on individual contacts and the `refined_*`
+schedules on group models at a common stopping tolerance.
 
 For complete node contacts:
 
@@ -57,8 +57,8 @@ amplification and 16/32/64/128-group predictions from the same RT–MT node rele
 All endpoint users are retained. Delivery matrices use `[retweeter, author]` or
 `[follower, followed]`; mention matrices use `[mentioned, mentioning]`.
 Contacts are binary, nonself, and normalized by the positive incoming-degree median
-with a per-user cap of five. Behavioral rates in `parameters.json` are fixed when
-moving from groups to nodes or varying the emotional exit rate. Higgs provides
+with a per-user cap of five. Group and node evaluations use the same behavioral rates. Emotional-exit
+comparisons vary `mu` while keeping the other rates fixed. Higgs provides
 contacts; activity states and intervention effects are model scenarios.
 
 ## Paper-to-code map
@@ -68,7 +68,7 @@ contacts; activity states and intervention effects are model scenarios.
 | `run.py` | Section V | Single command entry point |
 | `ear/model.py` | Equations (2), (3), (6) | Coupled activities, controls and objective |
 | `ear/aggregation.py` | Section II-D, Algorithm 1 | Contact-profile groups and shared actions |
-| `ear/optimize.py` | Theorem 3, Algorithm 2 | Whole-interval projected allocation |
+| `ear/optimize.py` | Theorem 3, Algorithm 2 | Joint allocation across all holding intervals |
 | `ear/integrate.py` | Algorithm 2, Appendix D | SSPRK3 integration and discrete adjoint |
 | `ear/hold.py` | Theorem 2, Algorithm 3, Appendix E | Emotional upper bound and longest eligible first hold |
 | `ear/bounds.py` | Lemma F.1 | Group-to-node state and cumulative-activity bounds |
