@@ -31,9 +31,9 @@ def main():
         if name == "solve":
             command.add_argument("--refined", action="store_true")
             command.add_argument("--policies", nargs="+", choices=POLICIES)
-            scenarios = ["reference", "mu_low", "mu_high", "emotion_low", "emotion_high"]
+            scenarios = ["main", "mu_low", "mu_high", "emotion_low", "emotion_high"]
             scenarios += [f"{key}_{side}" for key in SETTINGS["sensitivity"] for side in ("low", "high")]
-            command.add_argument("--scenario", choices=scenarios, default="reference")
+            command.add_argument("--scenario", choices=scenarios, default="main")
         if name == "review":
             command.add_argument("--interval", choices=["adaptive", "1", "2", "4"], default="adaptive")
     args = parser.parse_args()
@@ -50,7 +50,7 @@ def main():
         overrides = {}
         if args.refined and args.policies and any(p not in ("joint_held", "optimized_constant", "peer_free_design") for p in args.policies):
             parser.error("The common-tolerance comparison uses joint, constant and peer-free policies.")
-        if args.scenario != "reference":
+        if args.scenario != "main":
             parameter, side = args.scenario.rsplit("_", 1)
             if network != "rt_mt" and not (parameter == "emotion" and network == "synthetic"):
                 parser.error("This parameter comparison uses RT–MT; initial-emotion comparisons also use synthetic contacts.")

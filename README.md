@@ -8,7 +8,7 @@ selection of the next review, and evaluation of propagation after withdrawal.
 
 ## Start here
 
-Python 3.10 or later; NumPy and SciPy; CPU execution.
+Python 3.10 or later.
 
 ```sh
 python -m pip install -r requirements.txt
@@ -16,9 +16,8 @@ python run.py demo
 python run.py reproduce --network rt_mt
 ```
 
-The example takes a few seconds. `reproduce` evaluates the saved paper schedules
-and writes population trajectories and metrics under `outputs/`. `python test_core.py`
-checks the gradient, constraints, holding condition and a saved reference result.
+`reproduce` evaluates the saved paper schedules and writes population trajectories
+and metrics under `outputs/`. `python test_core.py` runs the core tests.
 
 ## Paper experiments
 
@@ -33,10 +32,9 @@ checks the gradient, constraints, holding condition and a saved reference result
 | `solve --network rt_mt --refined` | Recompute the common-tolerance group comparison |
 | `review --network rt_mt --interval adaptive` | Recompute first-hold selection and action adjustment |
 
-Prefix commands with `python run.py`. `--help` lists options. Optimization uses
-2,000 updates per start (400 at each review) and tolerance `1e-3`. For each solve,
-`solutions.csv` summarizes both starts' final costs, stopping values and selection.
-Original and `refined_*` schedules are distinct; the paper's node comparisons use the original schedules.
+Prefix commands with `python run.py`; `--help` lists options. The paper uses
+original schedules for node comparisons and `refined_*` schedules for the
+common-tolerance group comparison.
 
 For complete node contacts:
 
@@ -75,13 +73,9 @@ contacts; activity states and intervention effects are model scenarios.
 | `ear/hold.py` | Theorem 2, Algorithm 3, Appendix E | Emotional upper bound and longest eligible first hold |
 | `ear/bounds.py` | Lemma F.1 | Group-to-node state and cumulative-activity bounds |
 | `networks.py` | Section V-A, Appendix G-A | Complete contacts and synthetic network |
-| `experiments.py`: `solve`, `reproduce`, `timing` | Sections V-B–V-C | Allocation and matched-input comparisons |
+| `experiments.py`: `solve`, `reproduce`, `timing` | Sections V-B–V-C | Allocation and timing at equal cumulative inputs |
 | `experiments.py`: `withdrawal` | Section V-D | Emotional amplification and group predictions after release |
 | `experiments.py`: `review`, `solve` | Sections V-E–V-F | Review decisions and parameter sensitivity |
-| `parameters.json` | Table G.I | Reference values and prescribed ranges |
+| `parameters.json` | Table G.I | Model parameters and sensitivity ranges |
 | `data/inputs.npz`, `data/schedules.npz` | Section V, Appendix G | Three group models and 28 final schedules |
 | `data/results.csv` | Section V, Appendix G | Final metrics with model, policy, unit and time window |
-
-The reported full-network experiments used an Apple M4 Pro with 24 GiB memory
-and one requested computational thread. Full optimization takes longer than
-evaluation of saved schedules. Output directories are excluded from version control.

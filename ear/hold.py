@@ -56,10 +56,10 @@ def source_bound(model: Model, ceiling: Array, action: Array, q: Array) -> float
     return float(q @ (model.beta*(1-u)*(1+model.alpha*ceiling)*model.source_x_max))
 
 
-def positive_weight(model: Model, reference_action: Array, ceiling: Array|None=None) -> Array:
-    M=rumor_matrix(model,np.ones(model.K) if ceiling is None else ceiling,reference_action)
+def positive_weight(model: Model, auxiliary_action: Array, ceiling: Array|None=None) -> Array:
+    M=rumor_matrix(model,np.ones(model.K) if ceiling is None else ceiling,auxiliary_action)
     if np.max(np.linalg.eigvals(M).real)>=-1e-10:
-        raise ValueError('Reference rumor matrix must have negative spectral abscissa.')
+        raise ValueError('Auxiliary rumor matrix must have negative spectral abscissa.')
     q=np.linalg.solve(-M.T,np.ones(model.K))
     if np.any(q<=0): raise ArithmeticError('Positive weight construction failed.')
     return q/q.sum()

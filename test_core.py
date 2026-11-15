@@ -40,7 +40,7 @@ class CoreTests(unittest.TestCase):
         _, ceiling = emotional_bound(self.model, self.z[2:], decision.action, decision.duration)
         self.assertTrue(np.all(contraction_margin(self.model, ceiling, decision.action, q, .01) <= 1e-12))
 
-    def test_saved_reference(self):
+    def test_saved_schedule(self):
         model, z, _ = load_case("rt_mt")
         with np.load(ROOT / "data/schedules.npz") as data:
             U, grid = data["rt_mt_joint_held_controls"], data["rt_mt_joint_held_grid"]
