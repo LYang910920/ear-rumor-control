@@ -1,0 +1,128 @@
+{
+  "common": {
+    "alpha": 1.5,
+    "delta": 0.22,
+    "gamma": 0.06,
+    "mu": 0.06,
+    "u_max": 0.85,
+    "v_max": 0.2,
+    "resource_u": 1.0,
+    "resource_v": 3.0,
+    "weight_x": 1.0,
+    "weight_y": 0.25,
+    "cost_u": 0.08,
+    "cost_v": 1.5,
+    "terminal_x": 2.0,
+    "terminal_y": 1.0,
+    "source_x_max": 0.0,
+    "source_y_max": 0.0,
+    "budget": 0.65
+  },
+  "networks": {
+    "rt_mt": {
+      "beta": 0.1689534172701642,
+      "eta": 0.09127084019360455,
+      "nodes": 304691,
+      "groups": 32
+    },
+    "follower_mt": {
+      "beta": 0.053373795834644515,
+      "eta": 0.11842797751964186,
+      "nodes": 456626,
+      "groups": 32
+    },
+    "synthetic": {
+      "beta": 0.19833643906186135,
+      "eta": 0.0720632628959206,
+      "nodes": 10000,
+      "groups": 32,
+      "seed": 20260907
+    }
+  },
+  "initial": {
+    "x": 0.06,
+    "y": 0.25
+  },
+  "time": {
+    "horizon": 24.0,
+    "hold": 2.0,
+    "followup_hours": 12.0,
+    "max_step": 0.05
+  },
+  "optimizer": {
+    "max_iterations": 2000,
+    "review_max_iterations": 400,
+    "refined_max_iterations": 2000,
+    "starts": 2,
+    "tolerance": 0.001
+  },
+  "review": {
+    "menu": [
+      1.0,
+      2.0,
+      4.0
+    ],
+    "prediction_horizon": 8.0,
+    "decline_rate": 0.01,
+    "warm_start": true,
+    "fees": [
+      0.0,
+      0.02,
+      0.05
+    ]
+  },
+  "sensitivity": {
+    "beta": {
+      "values": [
+        0.13516273381613136,
+        0.1689534172701642,
+        0.20274410072419702
+      ]
+    },
+    "eta": {
+      "values": [
+        0.06845313014520342,
+        0.09127084019360455,
+        0.11408855024200569
+      ]
+    },
+    "alpha": {
+      "values": [
+        0.75,
+        1.5,
+        2.25
+      ]
+    },
+    "gamma": {
+      "values": [
+        0.03,
+        0.06,
+        0.09
+      ]
+    },
+    "budget": {
+      "values": [
+        0.45,
+        0.65,
+        0.8500000000000001
+      ]
+    },
+    "weight_y": {
+      "values": [
+        0.125,
+        0.25,
+        0.5
+      ]
+    }
+  },
+  "initial_emotion": [
+    0.1,
+    0.25,
+    0.4
+  ],
+  "exit_rates": [
+    0.03,
+    0.06,
+    0.12
+  ]
+}
